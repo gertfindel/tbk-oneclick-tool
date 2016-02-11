@@ -1,28 +1,23 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Setup:
+* clone repo
+* bundle install
+* you need a valid certificate for tbk, place it in the root folder and edit
+  the cert_path and key_path in config/initializers/transbank_oneclick.rb
 
 
-Please feel free to use a different markup language if you do not plan to run
+Register a new payment method in tbkoneclick's sandbox environment:
+* rails c 
+* initialize inscription:
+  response = Transbank::Oneclick.init_inscription({email: "your@email.com", username: "yourusername", response_url: 'your website'})
+  the response contains a token
+* open html form test-form.html in your browser, enter the token and submit
+  follow instructions on website and submit. tbk test-card details can be found here:
+  https://www.transbank.cl/public/documentacion/webpay/01_Referencia_API_SOAP_Webpay_General.pdf
+* finish inscription to get tbk_username   
+  inscription = Transbank::Oneclick.finish_inscription(token)
+  card should be registered, inscription.tbk_user string is required for payments
+
+
 <tt>rake doc:app</tt>.
